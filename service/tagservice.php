@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Metadata;
+namespace OCA\Metadata\Service;
 
 /**
  * Service class to manage tags on files.

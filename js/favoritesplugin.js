@@ -23,13 +23,13 @@
 	FavoritesPlugin.prototype = {
 		name: 'Favorites',
 
-		apply: function(app) {
+		apply: function() {
 			var self = this;
 			var fileActions = OCA.Files.fileActions;
 			var urlParams = OC.Util.History.parseUrlQuery();
 
 			// register favorite list for sidebar section
-			this.favoritesFileList = new OCA.Files.FavoritesFileList(
+			this.favoritesFileList = new OCA.Metadata.FavoritesFileList(
 				$('#app-content-favorites'), {
 					scrollContainer: $('#app-content'),
 					dragOptions: dragOptions,
@@ -130,7 +130,7 @@
 				encodedPath = encodedPath.substr(1);
 			}
 			return $.ajax({
-				url: OC.generateUrl('/apps/files/api/v1/files/') + encodedPath,
+				url: OC.generateUrl('/apps/metadata/api/v1/files/') + encodedPath,
 				contentType: 'application/json',
 				data: JSON.stringify({
 					format: 'json',

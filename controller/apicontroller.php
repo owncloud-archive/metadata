@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files\Controller;
+namespace OCA\Metadata\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Controller;

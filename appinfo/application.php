@@ -15,7 +15,8 @@ namespace OCA\Metadata\AppInfo;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
 
-use \OCA\Metadata\Controller\PageController;
+use \OCA\Metadata\Controller\ApiController;
+use \OCA\Metadata\Service\TagService;
 
 
 class Application extends App {

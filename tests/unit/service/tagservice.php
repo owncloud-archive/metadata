@@ -22,6 +22,8 @@
  */
 namespace OCA\Metadata;
 
+use \OCA\Metadata\Service\TagService;
+
 class TagServiceTest extends \Test\TestCase {
 
 	private $user;
@@ -39,7 +41,7 @@ class TagServiceTest extends \Test\TestCase {
 		$this->userFilesView = new \OC\Files\View('/' . $this->user. '/files');
 
 		$this->tagger = \OC::$server->getTagManager()->load('files');
-		$this->tagService = new \OCA\Files\Service\TagService(
+		$this->tagService = new TagService(
 			$this->tagger,
 			$this->userFilesView
 		);
