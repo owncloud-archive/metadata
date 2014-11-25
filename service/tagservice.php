@@ -14,11 +14,11 @@ namespace OCA\Metadata\Service;
 class TagService {
 
 	private $tagger;
-	private $userFilesView;
+	private $homeFolder;
 
-	public function __construct(\OCP\ITags $tagger, \OC\Files\View $userFilesView) {
+	public function __construct(\OCP\ITags $tagger, \OCP\Files\Folder $homeFolder) {
 		$this->tagger = $tagger;
-		$this->userFilesView = $userFilesView;
+		$this->homeFolder = $homeFolder;
 	}
 
 	/**
@@ -31,12 +31,8 @@ class TagService {
 	 * @return array list of tags
 	 */
 	public function updateFileTags($path, $tags) {
-		$fileInfo = $this->userFilesView->getFileInfo($path);
-		if (!$fileInfo) {
-			throw new \OCP\Files\NotFoundException('File not found \"' . $path . '\"');
-		}
+		$fileId = $this->homeFolder->get($path)->getId();
 
-		$fileId = $fileInfo->getId();
 		$currentTags = $this->tagger->getTagsForObjects($fileId);
 		// flatten
 		$currentTags = array_map(function($e) { return $e['tag']; }, $currentTags);

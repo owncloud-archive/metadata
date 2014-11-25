@@ -41,11 +41,10 @@ class Application extends App {
 			return \OC::$server->getTagManager()->load('files');
 		});
 		$container->registerService('TagService', function(SimpleContainer $c)  {
-			// TODO: use/provide public API for View
-			$view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files');
+			$homeFolder = \OC::$server->getUserFolder();
 			return new TagService(
 				$c->query('Tagger'),
-				$view
+				$homeFolder
 			);
 		});
 
