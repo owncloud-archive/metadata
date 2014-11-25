@@ -6,7 +6,7 @@
  * later. See the COPYING file.
  *
  * @author Vincent Petry <pvince81@owncloud.com>
- * @copyright Vincent Petry 2014
+ * @copyright 2014 Vincent Petry
  */
 
 namespace OCA\Metadata\AppInfo;
@@ -30,4 +30,6 @@ $l = $c->query('L10N');
 		"name" => $l->t('Favorites')
 	)
 );
+
+
 

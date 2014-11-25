@@ -71,10 +71,7 @@
 				data: {
 					format: 'json'
 				},
-				type: 'GET',
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-				}
+				type: 'GET'
 			});
 			var callBack = this.reloadCallback.bind(this);
 			return this._reloadCall.then(callBack, callBack);

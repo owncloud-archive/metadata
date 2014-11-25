@@ -6,7 +6,7 @@
  * later. See the COPYING file.
  *
  * @author Vincent Petry <pvince81@owncloud.com>
- * @copyright Vincent Petry 2014
+ * @copyright 2014 Vincent Petry
  */
 
 namespace OCA\Metadata\AppInfo;
@@ -23,12 +23,15 @@ $application = new Application();
 
 $application->registerRoutes(
 	$this,
-	array('routes' => array(
-		array(
-			'name' => 'API#updateFileTags',
-			'url' => '/api/v1/files/{path}',
-			'verb' => 'POST',
-			'requirements' => array('path' => '.+')
+	array(
+		'routes' => array(
+			array(
+				'name' => 'API#updateFileTags',
+				'url' => '/api/v1/files/{path}',
+				'verb' => 'POST',
+				'requirements' => array('path' => '.+'),
+			),
 		),
 	)
-));
+);
+

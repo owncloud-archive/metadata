@@ -27,7 +27,7 @@ namespace OCA\Metadata;
  */
 class TagsProxy extends \OC_FileProxy {
 
-	private static $tagManager;
+	private $tagManager;
 
 	public function __construct(\OCP\ITags $tagger) {
 		$this->tagManager = $tagger;
