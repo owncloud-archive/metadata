@@ -17,7 +17,8 @@ $l = $c->query('L10N');
 
 \OC_FileProxy::register(new \OCA\Metadata\TagsProxy($c->query('Tagger')));
 
-// FIXME: move to the files specific route
+// FIXME: I wish there was a way to load scripts only
+// on a specific route of the files app (index)
 \OCP\Util::addScript('metadata', 'favoritesplugin');
 \OCP\Util::addScript('metadata', 'favoritesfilelist');
 

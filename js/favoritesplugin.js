@@ -147,7 +147,7 @@
 
 $(document).ready(function() {
 	// FIXME: HACK: do not init when running unit tests, need a better way
-	if (!window.TESTING && !_.isUndefined(OCA.Files.App)) {
+	if (!window.TESTING && !_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
 		OCA.Files.App.registerPlugin(new OCA.Metadata.FavoritesPlugin());
 	}
 });

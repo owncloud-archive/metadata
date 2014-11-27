@@ -10,9 +10,12 @@
 
 // HACK: this piece needs to be loaded AFTER the files app
 $(document).ready(function() {
+	if (!OCA.Files || !OCA.Files.FileList) {
+		// not in the files app
+		return;
+	}
 
 	(function(OCA) {
-
 		/**
 		 * @class OCA.Files.FavoritesFileList
 		 * @augments OCA.Files.FavoritesFileList
