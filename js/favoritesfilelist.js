@@ -68,16 +68,13 @@ $(document).ready(function() {
 			},
 
 			reload: function() {
+				var tagName = OC.TAG_FAVORITE;
 				this.showMask();
 				if (this._reloadCall) {
 					this._reloadCall.abort();
 				}
 				this._reloadCall = $.ajax({
-					url: OC.linkToOCS('apps/files/api/v1') + 'favorites',
-					/* jshint camelcase: false */
-					data: {
-						format: 'json'
-					},
+					url: OC.generateUrl('/apps/metadata/api/v1/tags/{tagName}/files', {tagName: tagName}),
 					type: 'GET'
 				});
 				var callBack = this.reloadCallback.bind(this);
@@ -88,8 +85,8 @@ $(document).ready(function() {
 				delete this._reloadCall;
 				this.hideMask();
 
-				if (result.ocs && result.ocs.data) {
-					this.setFiles(this._makeFiles(result.ocs.data));
+				if (result.files) {
+					this.setFiles(result.files.sort(this._sortComparator));
 				}
 				else {
 					// TODO: error handling

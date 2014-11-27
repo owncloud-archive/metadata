@@ -79,7 +79,7 @@
 						// do nothing
 						return;
 					}
-					$actionEl.addClass('icon-loading');
+					$actionEl.addClass('icon-loading permanent');
 					self.applyFileTags(
 						dir + '/' + fileName,
 						tags

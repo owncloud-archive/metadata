@@ -31,6 +31,12 @@ $application->registerRoutes(
 				'verb' => 'POST',
 				'requirements' => array('path' => '.+'),
 			),
+			array(
+				'name' => 'API#getFilesByTag',
+				'url' => '/api/v1/tags/{tagName}/files',
+				'verb' => 'GET',
+				'requirements' => array('tagName' => '.+'),
+			),
 		),
 	)
 );

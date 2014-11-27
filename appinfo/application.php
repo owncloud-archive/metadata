@@ -30,28 +30,29 @@ class Application extends App {
         /**
          * Core
          */
-        $container->registerService('L10N', function($c) {
+        $container->registerService('L10N', function(IContainer $c) {
             return $c->query('ServerContainer')->getL10N($c->query('AppName'));
         });
 
 		/**
 		 * Services
 		 */
-		$container->registerService('Tagger', function(SimpleContainer $c)  {
+		$container->registerService('Tagger', function(IContainer $c)  {
 			return \OC::$server->getTagManager()->load('files');
 		});
-		$container->registerService('TagService', function(SimpleContainer $c)  {
+		$container->registerService('TagService', function(IContainer $c)  {
 			$homeFolder = \OC::$server->getUserFolder();
 			return new TagService(
 				$c->query('Tagger'),
-				$homeFolder
+				$homeFolder,
+				new \OC\Files\View('/' . $c->query('UserId') . '/files')
 			);
 		});
 
 		/**
 		 * Controllers
 		 */
-		$container->registerService('APIController', function (SimpleContainer $c) {
+		$container->registerService('APIController', function (IContainer $c) {
 			return new ApiController(
 				$c->query('AppName'),
 				$c->query('Request'),

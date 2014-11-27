@@ -14,7 +14,7 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DownloadResponse;
 use OC\Preview;
-use OCA\Files\Service\TagService;
+use OCA\Metadata\Service\TagService;
 
 class ApiController extends Controller {
 
@@ -41,11 +41,26 @@ class ApiController extends Controller {
 		if (!is_null($tags)) {
 			try {
 				$this->tagService->updateFileTags($path, $tags);
-			} catch (\OCP\NotFoundException $e) {
+			} catch (\OCP\Files\NotFoundException $e) {
 				return new JSONResponse($e->getMessage(), Http::STATUS_NOT_FOUND);
 			}
 			$result['tags'] = $tags;
 		}
+		return new JSONResponse($result, Http::STATUS_OK);
+	}
+
+	/**
+	 * Returns a list of all files tagged with the given tag.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param array $tagName tag name to filter by
+	 */
+	public function getFilesByTag($tagName) {
+		$result = array();
+		$files = $this->tagService->getFilesByTag($tagName);
+		$result['tag'] = $tagName;
+		$result['files'] = \OCA\Files\Helper::formatFileInfos($files);
 		return new JSONResponse($result, Http::STATUS_OK);
 	}
 }
