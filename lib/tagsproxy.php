@@ -58,4 +58,27 @@ class TagsProxy extends \OC_FileProxy {
 		}
 		return $results;
 	}
+
+	/**
+	 * Fills the FileInfo from the result with tags info
+	 *
+	 * @param string $path
+	 * @param array $data
+	 * @return array updated data
+	 */
+	public function postGetFileInfo($path, $data) {
+		if (!isset($data['fileid'])) {
+			return $data;
+		}
+		$tags = $this->tagManager->getTagsForObjects((int)$data['fileid']);
+		if (!empty($tags)) {
+			$data['tags'] = array_map(
+				function ($tagEntry) {
+					return $tagEntry['tag'];
+				},
+				$tags
+			);
+		}
+		return $data;
+	}
 }

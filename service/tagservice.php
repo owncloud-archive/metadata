@@ -63,18 +63,12 @@ class TagService {
 	 * @throws \Exception if the tag does not exist
 	 */
 	public function getFilesByTag($tagName) {
-		$fileIds = $this->tagger->getIdsForTag($tagName);
-		$results = array();
-
-		// FIXME: HORRIBLY UNEFFICIENT
-		foreach ($fileIds as $fileId) {
-			$node = $this->homeFolder->getById($fileId);
-			if (!empty($node)) {
-				$results[] = $node[0]->getFileInfo();
-			}
+		$nodes = $this->homeFolder->searchByTag($tagName);
+		foreach ($nodes as &$node) {
+			$node = $node->getFileInfo();
 		}
 
-		return $results;
+		return $nodes;
 	}
 }
 
