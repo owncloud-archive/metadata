@@ -44,8 +44,7 @@ class Application extends App {
 			$homeFolder = \OC::$server->getUserFolder();
 			return new TagService(
 				$c->query('Tagger'),
-				$homeFolder,
-				new \OC\Files\View('/' . $c->query('UserId') . '/files')
+				$homeFolder
 			);
 		});
 

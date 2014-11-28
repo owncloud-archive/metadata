@@ -17,10 +17,9 @@ class TagService {
 	private $homeFolder;
 	private $homeView;
 
-	public function __construct(\OCP\ITags $tagger, \OCP\Files\Folder $homeFolder, \OC\Files\View $homeView) {
+	public function __construct(\OCP\ITags $tagger, \OCP\Files\Folder $homeFolder) {
 		$this->tagger = $tagger;
 		$this->homeFolder = $homeFolder;
-		$this->homeView = $homeView;
 	}
 
 	/**
@@ -67,23 +66,14 @@ class TagService {
 		$fileIds = $this->tagger->getIdsForTag($tagName);
 		$results = array();
 
-		// populate from cache
-		// FIXME: HORRIBLE APPROACH BEGIN
-		// FIXME: not possible to use $this->homeFolder here due to lack of APIs
-		list($storage, $internalPath) = $this->homeView->resolvePath('/');
-		$cache = $storage->getCache();
 		// FIXME: HORRIBLY UNEFFICIENT
 		foreach ($fileIds as $fileId) {
-			$data = $cache->get($fileId);
-			if ($data) {
-				// FIXME $storage is not always correct
-				$results[] = new \OC\Files\FileInfo($data['path'], $storage, $data['path'], $data);
+			$node = $this->homeFolder->getById($fileId);
+			if (!empty($node)) {
+				$results[] = $node[0]->getFileInfo();
 			}
 		}
-		// FIXME: HORRIBLE APPROACH END
 
-		// TODO: re-read from tagger to make sure the
-		// list is up to date, in case of concurrent changes ?
 		return $results;
 	}
 }
