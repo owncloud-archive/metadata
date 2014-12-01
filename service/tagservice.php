@@ -36,8 +36,10 @@ class TagService {
 		$fileId = $this->homeFolder->get($path)->getId();
 
 		$currentTags = $this->tagger->getTagsForObjects($fileId);
-		// flatten
-		$currentTags = array_map(function($e) { return $e['tag']; }, $currentTags);
+
+		if (!empty($currentTags)) {
+			$currentTags = current($currentTags);
+		}
 
 		$newTags = array_diff($tags, $currentTags);
 		foreach ($newTags as $tag) {

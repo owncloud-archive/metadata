@@ -47,12 +47,7 @@ class TagsProxy extends \OC_FileProxy {
 				// FIXME: horribly unefficient, maybe bundle a few ids together
 				$tags = $this->tagManager->getTagsForObjects((int)$result->getId());
 				if (!empty($tags)) {
-					$result['tags'] = array_map(
-						function ($tagEntry) {
-							return $tagEntry['tag'];
-						},
-						$tags
-					);
+					$result['tags'] = current($tags);
 				}
 			}
 		}
@@ -72,12 +67,7 @@ class TagsProxy extends \OC_FileProxy {
 		}
 		$tags = $this->tagManager->getTagsForObjects((int)$data['fileid']);
 		if (!empty($tags)) {
-			$data['tags'] = array_map(
-				function ($tagEntry) {
-					return $tagEntry['tag'];
-				},
-				$tags
-			);
+			$data['tags'] = current($tags);
 		}
 		return $data;
 	}
