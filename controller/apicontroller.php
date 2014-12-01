@@ -11,7 +11,7 @@ namespace OCA\Metadata\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DownloadResponse;
 use OC\Preview;
 use OCA\Metadata\Service\TagService;
@@ -31,6 +31,7 @@ class ApiController extends Controller {
 	 * replace the actual tag selection.
 	 *
 	 * @NoAdminRequired
+	 * @CORS
 	 *
 	 * @param string $path path
 	 * @param array  $tags array of tags
@@ -42,17 +43,18 @@ class ApiController extends Controller {
 			try {
 				$this->tagService->updateFileTags($path, $tags);
 			} catch (\OCP\Files\NotFoundException $e) {
-				return new JSONResponse($e->getMessage(), Http::STATUS_NOT_FOUND);
+				return new DataResponse($e->getMessage(), Http::STATUS_NOT_FOUND);
 			}
 			$result['tags'] = $tags;
 		}
-		return new JSONResponse($result, Http::STATUS_OK);
+		return new DataResponse($result, Http::STATUS_OK);
 	}
 
 	/**
 	 * Returns a list of all files tagged with the given tag.
 	 *
 	 * @NoAdminRequired
+	 * @CORS
 	 *
 	 * @param array $tagName tag name to filter by
 	 */
@@ -61,6 +63,6 @@ class ApiController extends Controller {
 		$files = $this->tagService->getFilesByTag($tagName);
 		$result['tag'] = $tagName;
 		$result['files'] = \OCA\Files\Helper::formatFileInfos($files);
-		return new JSONResponse($result, Http::STATUS_OK);
+		return new DataResponse($result, Http::STATUS_OK);
 	}
 }

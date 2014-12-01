@@ -129,7 +129,6 @@
 				url: OC.generateUrl('/apps/metadata/api/v1/files/') + encodedPath,
 				contentType: 'application/json',
 				data: JSON.stringify({
-					format: 'json',
 					tags: tagNames || []
 				}),
 				dataType: 'json',

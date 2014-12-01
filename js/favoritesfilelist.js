@@ -77,7 +77,8 @@ $(document).ready(function() {
 				}
 				this._reloadCall = $.ajax({
 					url: OC.generateUrl('/apps/metadata/api/v1/tags/{tagName}/files', {tagName: tagName}),
-					type: 'GET'
+					type: 'GET',
+					dataType: 'json'
 				});
 				var callBack = this.reloadCallback.bind(this);
 				return this._reloadCall.then(callBack, callBack);
