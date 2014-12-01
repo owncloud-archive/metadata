@@ -19,6 +19,7 @@ $l = $c->query('L10N');
 
 // FIXME: I wish there was a way to load scripts only
 // on a specific route of the files app (index)
+\OCP\Util::addScript('metadata', 'app');
 \OCP\Util::addScript('metadata', 'favoritesplugin');
 \OCP\Util::addScript('metadata', 'favoritesfilelist');
 

@@ -32,6 +32,7 @@ $(document).ready(function() {
 		};
 		FavoritesFileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 			/** @lends OCA.Files.FavoritesFileList.prototype */ {
+			id: 'favorites',
 			appName: 'Favorites',
 
 			_clientSideSort: true,
@@ -44,6 +45,7 @@ $(document).ready(function() {
 				if (this.initialized) {
 					return;
 				}
+				OC.Plugins.attach('OCA.Metadata.FavoritesFileList', this);
 			},
 
 			updateEmptyContent: function() {

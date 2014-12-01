@@ -18,28 +18,19 @@
 	 * @classdesc Favorites plugin
 	 * Registers the favorites file list and file actions.
 	 */
-	var FavoritesPlugin = function() {
-	};
-	FavoritesPlugin.prototype = {
+	OCA.Metadata.FavoritesPlugin = {
 		name: 'Favorites',
 
-		apply: function() {
+		allowedLists: [
+			'files',
+			'shares.self',
+			'shares.link',
+			'shares.others',
+			'favorites'
+		],
+
+		_extendFileActions: function(fileActions) {
 			var self = this;
-			var fileActions = OCA.Files.fileActions;
-			var urlParams = OC.Util.History.parseUrlQuery();
-
-			// register favorite list for sidebar section
-			this.favoritesFileList = new OCA.Metadata.FavoritesFileList(
-				$('#app-content-favorites'), {
-					scrollContainer: $('#app-content'),
-					dragOptions: dragOptions,
-					folderDropOptions: folderDropOptions,
-					fileActions: fileActions,
-					allowLegacyActions: true,
-					scrollTo: urlParams.scrollto
-				}
-			);
-
 			// register "star" action
 			fileActions.registerAction({
 				name: 'favorite',
@@ -93,19 +84,16 @@
 					});
 				}
 			});
+		},
 
-			var oldInitialize = OCA.Files.FileList.prototype.initialize;
-			OCA.Files.FileList.prototype.initialize = function() {
-				var result = oldInitialize.apply(this, arguments);
-				// accomodate for the extra "favorite" column
-				var $header = this.$el.find('#headerName');
-				$header.attr('colspan', $header.attr('colspan') || 1 + 1);
-				return result;
-			};
+		_extendFileList: function(fileList) {
+			// accomodate for the extra "favorite" column
+			var $header = fileList.$el.find('#headerName');
+			$header.attr('colspan', parseInt($header.attr('colspan'), 10) || 1 + 1);
 
 			// extend row prototype
-			var oldCreateRow = OCA.Files.FileList.prototype._createRow;
-			OCA.Files.FileList.prototype._createRow = function(fileData) {
+			var oldCreateRow = fileList._createRow;
+			fileList._createRow = function(fileData) {
 				var $tr = oldCreateRow.apply(this, arguments);
 				if (fileData.tags) {
 					$tr.attr('data-tags', fileData.tags.join('|'));
@@ -116,6 +104,14 @@
 				$tr.prepend('<td class="favorite"></td>');
 				return $tr;
 			};
+		},
+
+		attach: function(fileList) {
+			if (this.allowedLists.indexOf(fileList.id) < 0) {
+				return;
+			}
+			this._extendFileActions(fileList.fileActions);
+			this._extendFileList(fileList);
 		},
 
 		/**
@@ -141,14 +137,7 @@
 			});
 		}
 	};
-
-	OCA.Metadata.FavoritesPlugin = FavoritesPlugin;
 })(OCA);
 
-$(document).ready(function() {
-	// FIXME: HACK: do not init when running unit tests, need a better way
-	if (!window.TESTING && !_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
-		OCA.Files.App.registerPlugin(new OCA.Metadata.FavoritesPlugin());
-	}
-});
+OC.Plugins.register('OCA.Files.FileList', OCA.Metadata.FavoritesPlugin);
 
