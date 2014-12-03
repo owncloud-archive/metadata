@@ -30,18 +30,18 @@ class Application extends App {
         /**
          * Core
          */
-        $container->registerService('L10N', function(IContainer $c) {
-            return $c->query('ServerContainer')->getL10N($c->query('AppName'));
-        });
+		$container->registerService('L10N', function(IContainer $c) {
+			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
+		});
 
 		/**
 		 * Services
 		 */
 		$container->registerService('Tagger', function(IContainer $c)  {
-			return \OC::$server->getTagManager()->load('files');
+			return $c->query('ServerContainer')->getTagManager()->load('files');
 		});
 		$container->registerService('TagService', function(IContainer $c)  {
-			$homeFolder = \OC::$server->getUserFolder();
+			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('Tagger'),
 				$homeFolder
