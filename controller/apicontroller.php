@@ -59,10 +59,15 @@ class ApiController extends Controller {
 	 * @param array $tagName tag name to filter by
 	 */
 	public function getFilesByTag($tagName) {
-		$result = array();
-		$files = $this->tagService->getFilesByTag($tagName);
-		$result['tag'] = $tagName;
-		$result['files'] = \OCA\Files\Helper::formatFileInfos($files);
-		return new DataResponse($result, Http::STATUS_OK);
+		$files = array();
+		$fileInfos = $this->tagService->getFilesByTag($tagName);
+		foreach ($fileInfos as &$fileInfo) {
+			$file = \OCA\Files\Helper::formatFileInfo($fileInfo);
+			$parts = explode('/', dirname($fileInfo->getPath()), 4);
+			$file['path'] = '/' . $parts[3];
+			$file['tags'] = array($tagName);
+			$files[] = $file;
+		}
+		return new DataResponse(array('files' => $files), Http::STATUS_OK);
 	}
 }
