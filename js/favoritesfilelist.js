@@ -17,8 +17,8 @@ $(document).ready(function() {
 
 	(function(OCA) {
 		/**
-		 * @class OCA.Files.FavoritesFileList
-		 * @augments OCA.Files.FavoritesFileList
+		 * @class OCA.Metadata.FavoritesFileList
+		 * @augments OCA.Metadata.FavoritesFileList
 		 *
 		 * @classdesc Favorites file list.
 		 * Displays the list of files marked as favorites
@@ -31,7 +31,7 @@ $(document).ready(function() {
 			this.initialize($el, options);
 		};
 		FavoritesFileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
-			/** @lends OCA.Files.FavoritesFileList.prototype */ {
+			/** @lends OCA.Metadata.FavoritesFileList.prototype */ {
 			id: 'favorites',
 			appName: 'Favorites',
 
