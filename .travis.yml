@@ -7,7 +7,7 @@ php:
 env:
   global:
     - CORE_BRANCH=master
-    - APP_NAME=files_antivirus
+    - APP_NAME=metadata
   matrix:
     - DB=sqlite
 
